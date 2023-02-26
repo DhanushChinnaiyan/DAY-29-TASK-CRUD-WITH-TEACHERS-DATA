@@ -7,7 +7,7 @@ const DashBoard = () => {
   const history = useHistory();
   return (
     <Base
-    title = "Welcome To Students App"
+    title = "Welcome To Teachers And Students App"
     >
       <br/>
         <Button 
@@ -17,6 +17,14 @@ const DashBoard = () => {
         onClick={()=>history.push("/students-list")}
         >
         Student Page
+        </Button>
+        <Button 
+        variant='outlined'
+        color='primary'
+        size = "large"
+        onClick={()=>history.push("/teachers-list")}
+        >
+        Teacher Page
         </Button>
      </Base>
   )
