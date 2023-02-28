@@ -10,10 +10,24 @@ export const StudentsDetails = ({studentsData,setStudentsData}) => {
     const history = useHistory();
 
 
-    const deleteStudentsData = (studId)=>{
-        const selectstudent = studentsData.filter((stud)=>stud.id !== studId);
-        setStudentsData(selectstudent);
+    const deleteStudentsData = async(studId)=>{
+        try {
+            
+            const response = await fetch(`https://63fde41c19f41bb9f6562d7f.mockapi.io/student/${studId}`,{
+              method:"DELETE"
+            });
+  
+            const data = response.json();
+            console.log(data)
+            const selectstudent = studentsData.filter((stud)=>stud.id !== studId);
+          setStudentsData(selectstudent);
+  
+          } catch (error) {
+              console.log("Error Occured",error)
+          }
     }
+
+    
 
     return(
 
@@ -28,7 +42,7 @@ export const StudentsDetails = ({studentsData,setStudentsData}) => {
                             <Card  style={{backgroundColor:"rgb(246, 251, 255)" , width:"calc(250px + 8vw)" , cursor:"context-menu"}} key={idx}>
                                 <CardContent>
                                     <Typography>
-                                        Name:{stud.name}
+                                     {idx+1}<span style={{fontWeight:"bold"}}>.</span> Name:{stud.name}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>

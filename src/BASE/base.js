@@ -75,7 +75,7 @@ const Base = ({title,children}) => {
 
 
             <header>
-                <h1>{title}</h1>
+                <div className='title'>{title}</div>
             </header>
 
             <div>

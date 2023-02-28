@@ -10,7 +10,7 @@ const AddStudents = ({studentsData,setStudentsData}) => {
     const history =useHistory();
 
     const[values,setValues] = useState({
-        id:"",
+        
         name:"",
         batch:"",
         gender:"",
@@ -18,7 +18,7 @@ const AddStudents = ({studentsData,setStudentsData}) => {
     })
 
     const{
-        id,
+       
         name,
         batch,
         gender,
@@ -30,29 +30,46 @@ const AddStudents = ({studentsData,setStudentsData}) => {
             setValues({...values,[name]:value})
         }
 
-    const addNewStudent = () => {
+    const addNewStudent = async() => {
 
-        const newStudent = {
-            id,
-            name,
-            batch,
-            gender,
-            experience
+        try {
+            
+            const newStudent = {
+                
+                name,
+                batch,
+                gender,
+                experience
+            }
+     
+            const response = await fetch("https://63fde41c19f41bb9f6562d7f.mockapi.io/student",{
+                method:"POST",
+                body:JSON.stringify(newStudent),
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            });
+
+            const data = await response.json();
+
+            setStudentsData([...studentsData,data])
+    
+            setValues({
+                ...values,
+                
+                name:"",
+                batch:"",
+                gender:"",
+                experience:""
+            })
+    
+            history.push("/students-list")
+            console.log(data)
+
+
+        } catch (error) {
+            console.log("Error Occure" , error)
         }
-
-        setStudentsData([...studentsData,newStudent])
-
-        setValues({
-            ...values,
-            id:"",
-            name:"",
-            batch:"",
-            gender:"",
-            experience:""
-        })
-
-        history.push("/students-list")
-        console.log(newStudent)
     }
      
 
@@ -62,13 +79,7 @@ const AddStudents = ({studentsData,setStudentsData}) => {
         >
          <div className='inputfield'>
 
-           <TextField 
-           fullWidth label="Enter ID"
-           onChange={handlechange("id")}
-           value={id}
-           name="id"
-           id="fullWidth"
-           />
+          
 
           <TextField 
            fullWidth label="Enter Name"

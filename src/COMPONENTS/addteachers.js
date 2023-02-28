@@ -9,7 +9,7 @@ const AddTeachers = ({teachersData,setTeachersData}) => {
     const history =useHistory();
 
     const[values,setValues] = useState({
-        id:"",
+        
         name:"",
         batch:"",
         gender:"",
@@ -17,7 +17,7 @@ const AddTeachers = ({teachersData,setTeachersData}) => {
     })
 
     const{
-        id,
+        
         name,
         batch,
         gender,
@@ -29,30 +29,47 @@ const AddTeachers = ({teachersData,setTeachersData}) => {
             setValues({...values,[name]:value})
         }
 
-    const addNewStudent = () => {
+        const addNewTeacher = async() => {
 
-        const newStudent = {
-            id,
-            name,
-            batch,
-            gender,
-            experience
+            try {
+                
+                const newTeacher = {
+                    
+                    name,
+                    batch,
+                    gender,
+                    experience
+                }
+         
+                const response = await fetch("https://63fde41c19f41bb9f6562d7f.mockapi.io/teacher",{
+                    method:"POST",
+                    body:JSON.stringify(newTeacher),
+                    headers : {
+                        "Content-Type" : "application/json"
+                    }
+                });
+    
+                const data = await response.json();
+    
+                setTeachersData([...teachersData,data])
+        
+                setValues({
+                    ...values,
+                    
+                    name:"",
+                    batch:"",
+                    gender:"",
+                    experience:""
+                })
+        
+                history.push("/teachers-list")
+                console.log(data)
+    
+    
+            } catch (error) {
+                console.log("Error Occure" , error)
+            }
         }
-
-        setTeachersData([...teachersData,newStudent])
-
-        setValues({
-            ...values,
-            id:"",
-            name:"",
-            batch:"",
-            gender:"",
-            experience:""
-        })
-
-        history.push("/teachers-list")
-        console.log(newStudent)
-    }
      
 
     return(
@@ -60,14 +77,6 @@ const AddTeachers = ({teachersData,setTeachersData}) => {
         title="Add Teacher"
         >
          <div className='inputfield'>
-
-           <TextField 
-           fullWidth label="Enter ID"
-           onChange={handlechange("id")}
-           value={id}
-           name="id"
-           id="fullWidth"
-           />
 
           <TextField 
            fullWidth label="Enter Name"
@@ -105,7 +114,7 @@ const AddTeachers = ({teachersData,setTeachersData}) => {
            className='addbtn'
            color='success'
            variant="contained"
-           onClick={addNewStudent}
+           onClick={addNewTeacher}
         
            >
 

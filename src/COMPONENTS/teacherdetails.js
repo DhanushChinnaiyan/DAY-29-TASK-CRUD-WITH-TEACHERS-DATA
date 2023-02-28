@@ -10,9 +10,21 @@ export const TeacherDetails = ({teachersData,setTeachersData}) => {
     const history = useHistory();
 
 
-    const deleteteachersData = (studId)=>{
-        const selectstudent = teachersData.filter((stud)=>stud.id !== studId);
-        setTeachersData(selectstudent);
+    const deleteteachersData = async(teacherId)=>{
+        try {
+            
+          const response = await fetch(`https://63fde41c19f41bb9f6562d7f.mockapi.io/teacher/${teacherId}`,{
+            method:"DELETE"
+          });
+
+          const data = response.json();
+          console.log(data)
+          const selectteacher = teachersData.filter((teacher)=>teacher.id !== teacherId);
+        setTeachersData(selectteacher);
+
+        } catch (error) {
+            console.log("Error Occured",error)
+        }
     }
 
     return(
@@ -21,14 +33,14 @@ export const TeacherDetails = ({teachersData,setTeachersData}) => {
         title="Teachers Details"
         >
              <div className="carddiv">
-                    {teachersData.map((stud,idx)=>{
+                    {teachersData.map((teacher,idx)=>{
 
                         return(
 
                             <Card  style={{backgroundColor:"rgb(246, 251, 255)" , width:"calc(250px + 8vw)" , cursor:"context-menu"}} key={idx}>
                                 <CardContent>
                                     <Typography>
-                                        Name:{stud.name}
+                                    {idx+1}<span style={{fontWeight:"bold"}}>.</span> Name:{teacher.name}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
@@ -36,7 +48,7 @@ export const TeacherDetails = ({teachersData,setTeachersData}) => {
                                         VIEW TEACHER
                                     </Button>
                                     
-                                    <Button onClick={()=>deleteteachersData(stud.id)} color="error">
+                                    <Button onClick={()=>deleteteachersData(teacher.id)} color="error">
                                         DELETE
                                     </Button>
                                 </CardActions>

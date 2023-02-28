@@ -11,43 +11,60 @@ export const EditStudents = ({studentsData,setStudentsData}) => {
   const student = studentsData[id];
   const [name,setName] = useState("");
   const [batch,setBatch] = useState("");
-  const [idx,setIdx] = useState("");
   const [gender,setGender] = useState("");
   const [experience,setExperience] = useState("");
-
+  const [idx,setIdx] = useState("")
 
   useEffect(()=>{
-    
-    setIdx(student.id);
+    setIdx(student.id)
     setName(student.name);
     setBatch(student.batch);
     setGender(student.gender);
     setExperience(student.experience)
-  },[])
+  },[student.id,student.name,student.batch,student.gender,student.experience])
 
-const updateStudent = () => {
+const updateStudent = async() => {
 
-    const editedStudent = studentsData.findIndex((stud)=> stud.id === idx )
+   try {
+            
+     const updatedObj = {
+      name,
+      batch,
+      gender,
+      experience
+     }
 
-    // console.log(editedStudent)
+     const response = await fetch (`https://63fde41c19f41bb9f6562d7f.mockapi.io/student/${idx}`,{
+       method : "PUT",
+       body : JSON.stringify(updatedObj),
+       headers : {
+        "Content-Type":"application/json"
+       }
 
-    const updatedObj = {
-        id,
-        name,
-        batch,
-        gender,
-        experience
-    }
-    studentsData[editedStudent] = updatedObj;
+     });
+     const data = await response.json();
 
-    setStudentsData([...studentsData])
-    setIdx("")
-    setName("")
-    setBatch("")
-    setGender("")
-    setExperience("")
+     if(data){
 
-    history.push("/students-list")
+      const editedData = studentsData.findIndex((stud) => stud.id === idx);
+      studentsData[editedData] = updatedObj;
+      setStudentsData([...studentsData])
+      setName("")
+      setBatch("")
+      setGender("")
+      setExperience("")
+
+      history.push("/students-list")
+
+     }
+
+   
+    
+   } catch (error) {
+    
+    console.log("Error Ocured" , error)
+
+   }
 }
 
 
@@ -57,11 +74,7 @@ const updateStudent = () => {
         title="Edit Your Profie"
         >
          <div className="editStudent">
-            <TextField
-            fullWidth label="Enter Id"
-            onChange={(event)=>setIdx(event.target.value)}
-            value={idx}
-            />
+           
 
             <TextField
             fullWidth label="Enter Name"

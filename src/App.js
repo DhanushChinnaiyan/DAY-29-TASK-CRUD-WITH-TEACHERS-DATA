@@ -1,6 +1,6 @@
 
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Route,Switch,Redirect } from 'react-router-dom';
 import './App.css';
 import AddStudents from './COMPONENTS/addstudent';
@@ -12,12 +12,45 @@ import { StudentsDetails } from './COMPONENTS/studentdetail';
 import { StudentProfile } from './COMPONENTS/studentprofile';
 import { TeacherDetails } from './COMPONENTS/teacherdetails';
 import { TeacherProfile } from './COMPONENTS/teacherprofile';
-import data from './DATA/data';
-import teacherdata from './DATA/teacherdata';
+
 
 function App() {
-  const[teachersData,setTeachersData]=useState(teacherdata)
-  const[studentsData,setStudentsData]=useState(data)
+  const[teachersData,setTeachersData]=useState([])
+  const[studentsData,setStudentsData]=useState([])
+ 
+  useEffect(()=>{
+       const getStudent = async() => {
+        try {
+          const response =await fetch ("https://63fde41c19f41bb9f6562d7f.mockapi.io/student" , {
+            method:"GET"
+          });
+          const data =await response.json();
+          
+          setStudentsData(data)
+          
+        } catch (error) {
+          console.log("Error Occure" , error)
+        }
+       }
+
+       const getTeacher = async() => {
+        try {
+          const response = await fetch ("https://63fde41c19f41bb9f6562d7f.mockapi.io/teacher" ,{
+            method:"GET"
+          });
+
+          const data = await response.json();
+          setTeachersData(data)
+          
+        } catch (error) {
+          console.log("Error Occure" , error)
+        }
+       }
+       getStudent(); 
+       getTeacher();
+  },[])
+  
+
   return (
     <div className="App">
       <Switch>

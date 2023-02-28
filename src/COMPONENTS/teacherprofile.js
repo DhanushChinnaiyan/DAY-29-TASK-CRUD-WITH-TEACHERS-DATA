@@ -29,7 +29,8 @@ return(
             <p>Gender : {teacher.gender}</p>
             <p>Batch : {teacher.batch}</p>
             <p>Experience : {teacher.experience}</p>
-            <Button style={{fontSize : "calc(15px + 0.5vw)" , fontWeight:"bold"}} color="secondary" onClick={()=>history.push(`/editteacher/${id}`)}>
+            <Button style={{fontSize : "calc(15px + 0.5vw)" , fontWeight:"bold"}} color="secondary" 
+            onClick={()=>history.push(`/editteacher/${id}`)}>
              EDIT
             </Button>
         </div>

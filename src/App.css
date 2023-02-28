@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+.title{
+    font-weight: bold;
+    font-size: calc(19px + 1vw);
+    margin: 30px 0 0 20px;
+}
 .mainComponent{
     display: flex;
     flex-direction: column;
@@ -22,7 +27,7 @@
     
 }
 
-.inputfield,.editStudent{
+.inputfield,.editStudent,.editteacher{
     margin: 20px 0 0 0;
     /* border: 2px solid black; */
     display: flex;
